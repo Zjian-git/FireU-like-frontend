@@ -1,0 +1,1641 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "聊天服务",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/chat/conversations": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取会话列表",
+        "operationId": "conversationGetConversationList",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 50,
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "name": "offset",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type",
+                      "unread_count",
+                      "is_muted",
+                      "is_top",
+                      "created_at",
+                      "updated_at"
+                    ],
+                    "properties": {
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "is_muted": {
+                        "type": "boolean"
+                      },
+                      "is_top": {
+                        "type": "boolean"
+                      },
+                      "last_msg_content": {
+                        "type": "string"
+                      },
+                      "last_msg_id": {
+                        "type": "integer"
+                      },
+                      "last_msg_time": {
+                        "type": "integer"
+                      },
+                      "last_read_msg_id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "unread_count": {
+                        "type": "integer"
+                      },
+                      "updated_at": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{conversation_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取会话详情",
+        "operationId": "conversationGetConversationDetail",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversation": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "unread_count",
+                    "is_muted",
+                    "is_top",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_muted": {
+                      "type": "boolean"
+                    },
+                    "is_top": {
+                      "type": "boolean"
+                    },
+                    "last_msg_content": {
+                      "type": "string"
+                    },
+                    "last_msg_id": {
+                      "type": "integer"
+                    },
+                    "last_msg_time": {
+                      "type": "integer"
+                    },
+                    "last_read_msg_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "unread_count": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "删除会话（软删除）",
+        "operationId": "conversationDeleteConversation",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{conversation_id}/messages": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取会话消息列表",
+        "operationId": "messageGetMessages",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 50,
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "name": "offset",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "获取指定消息之前的消息",
+            "name": "before_msg_id",
+            "in": "query",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "conversation_id",
+                      "sender_type",
+                      "sender_id",
+                      "content_type",
+                      "content",
+                      "is_recalled",
+                      "created_at"
+                    ],
+                    "properties": {
+                      "content": {
+                        "type": "string"
+                      },
+                      "content_type": {
+                        "description": "text/image/video/audio/file/system",
+                        "type": "string"
+                      },
+                      "conversation_id": {
+                        "type": "integer"
+                      },
+                      "created_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "is_recalled": {
+                        "type": "boolean"
+                      },
+                      "reply_to_msg_id": {
+                        "type": "integer"
+                      },
+                      "sender_avatar": {
+                        "type": "string"
+                      },
+                      "sender_id": {
+                        "type": "integer"
+                      },
+                      "sender_name": {
+                        "type": "string"
+                      },
+                      "sender_type": {
+                        "description": "user/agent/system",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{conversation_id}/read": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "标记消息为已读",
+        "operationId": "messageMarkAsRead",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "message_id"
+              ],
+              "properties": {
+                "message_id": {
+                  "description": "标记到此消息为已读",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{conversation_id}/settings": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "更新会话设置",
+        "operationId": "conversationUpdateConversationSettings",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "is_muted": {
+                  "type": "boolean"
+                },
+                "is_top": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{conversation_id}/unread": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取会话未读数",
+        "operationId": "conversationGetUnreadCount",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "unread_count": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/groups": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "创建群聊",
+        "operationId": "groupCreateGroup",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "members"
+              ],
+              "properties": {
+                "avatar": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "members": {
+                  "description": "初始成员列表（支持user和agent）",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "member_type",
+                      "member_id"
+                    ],
+                    "properties": {
+                      "member_id": {
+                        "type": "integer"
+                      },
+                      "member_type": {
+                        "description": "user/agent",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversation": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "unread_count",
+                    "is_muted",
+                    "is_top",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_muted": {
+                      "type": "boolean"
+                    },
+                    "is_top": {
+                      "type": "boolean"
+                    },
+                    "last_msg_content": {
+                      "type": "string"
+                    },
+                    "last_msg_id": {
+                      "type": "integer"
+                    },
+                    "last_msg_time": {
+                      "type": "integer"
+                    },
+                    "last_read_msg_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "unread_count": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "group": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "conversation_id",
+                    "name",
+                    "owner_type",
+                    "owner_id",
+                    "max_member",
+                    "member_count",
+                    "is_verified",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_verified": {
+                      "type": "boolean"
+                    },
+                    "max_member": {
+                      "type": "integer"
+                    },
+                    "member_count": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "owner_type": {
+                      "description": "user/agent",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/groups/{conversation_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取群聊详情",
+        "operationId": "groupGetGroupDetail",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversation": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "unread_count",
+                    "is_muted",
+                    "is_top",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_muted": {
+                      "type": "boolean"
+                    },
+                    "is_top": {
+                      "type": "boolean"
+                    },
+                    "last_msg_content": {
+                      "type": "string"
+                    },
+                    "last_msg_id": {
+                      "type": "integer"
+                    },
+                    "last_msg_time": {
+                      "type": "integer"
+                    },
+                    "last_read_msg_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "unread_count": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "group": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "conversation_id",
+                    "name",
+                    "owner_type",
+                    "owner_id",
+                    "max_member",
+                    "member_count",
+                    "is_verified",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_verified": {
+                      "type": "boolean"
+                    },
+                    "max_member": {
+                      "type": "integer"
+                    },
+                    "member_count": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "owner_type": {
+                      "description": "user/agent",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "更新群聊信息",
+        "operationId": "groupUpdateGroup",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "avatar": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "conversation_id",
+                    "name",
+                    "owner_type",
+                    "owner_id",
+                    "max_member",
+                    "member_count",
+                    "is_verified",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_verified": {
+                      "type": "boolean"
+                    },
+                    "max_member": {
+                      "type": "integer"
+                    },
+                    "member_count": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "owner_type": {
+                      "description": "user/agent",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/groups/{conversation_id}/avatar": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "上传群组头像（multipart/form-data，字段名: avatar）",
+        "operationId": "groupUploadGroupAvatar",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "头像访问 URL",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/groups/{conversation_id}/members": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取群成员列表",
+        "operationId": "groupGetGroupMembers",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 50,
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "name": "offset",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "group_id",
+                      "member_type",
+                      "member_id",
+                      "role",
+                      "joined_at",
+                      "updated_at"
+                    ],
+                    "properties": {
+                      "group_id": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "joined_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer"
+                      },
+                      "member_id": {
+                        "type": "integer"
+                      },
+                      "member_type": {
+                        "description": "user/agent",
+                        "type": "string"
+                      },
+                      "mute_until": {
+                        "description": "Unix timestamp",
+                        "type": "integer"
+                      },
+                      "nickname": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "description": "owner/admin/member",
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "添加群成员",
+        "operationId": "groupAddGroupMembers",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "members"
+              ],
+              "properties": {
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "member_type",
+                      "member_id"
+                    ],
+                    "properties": {
+                      "member_id": {
+                        "type": "integer"
+                      },
+                      "member_type": {
+                        "description": "user/agent",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "移除群成员",
+        "operationId": "groupRemoveGroupMember",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "member_type",
+                "member_id"
+              ],
+              "properties": {
+                "member_id": {
+                  "type": "integer"
+                },
+                "member_type": {
+                  "description": "user/agent",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/groups/{conversation_id}/members/role": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "更新成员角色",
+        "operationId": "groupUpdateMemberRole",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "member_type",
+                "member_id",
+                "role"
+              ],
+              "properties": {
+                "member_id": {
+                  "type": "integer"
+                },
+                "member_type": {
+                  "description": "user/agent",
+                  "type": "string"
+                },
+                "role": {
+                  "description": "admin/member",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/messages": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "发送消息",
+        "operationId": "messageSendMessage",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "conversation_id",
+                "content_type",
+                "content"
+              ],
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "content_type": {
+                  "type": "string",
+                  "default": "text",
+                  "example": "text"
+                },
+                "conversation_id": {
+                  "type": "integer"
+                },
+                "reply_to_msg_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "conversation_id",
+                    "sender_type",
+                    "sender_id",
+                    "content_type",
+                    "content",
+                    "is_recalled",
+                    "created_at"
+                  ],
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    },
+                    "content_type": {
+                      "description": "text/image/video/audio/file/system",
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "type": "integer"
+                    },
+                    "created_at": {
+                      "description": "Unix timestamp",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_recalled": {
+                      "type": "boolean"
+                    },
+                    "reply_to_msg_id": {
+                      "type": "integer"
+                    },
+                    "sender_avatar": {
+                      "type": "string"
+                    },
+                    "sender_id": {
+                      "type": "integer"
+                    },
+                    "sender_name": {
+                      "type": "string"
+                    },
+                    "sender_type": {
+                      "description": "user/agent/system",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/messages/{message_id}": {
+      "delete": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "撤回消息",
+        "operationId": "messageRecallMessage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "message_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/private/conversations": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "创建私聊会话",
+        "operationId": "privateCreatePrivateConversation",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "target_type",
+                "target_id"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "target_id": {
+                  "type": "integer"
+                },
+                "target_type": {
+                  "description": "user/agent",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversation": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "unread_count",
+                    "is_muted",
+                    "is_top",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_muted": {
+                      "type": "boolean"
+                    },
+                    "is_top": {
+                      "type": "boolean"
+                    },
+                    "last_msg_content": {
+                      "type": "string"
+                    },
+                    "last_msg_id": {
+                      "type": "integer"
+                    },
+                    "last_msg_time": {
+                      "type": "integer"
+                    },
+                    "last_read_msg_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "unread_count": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/private/conversations/{conversation_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取私聊详情",
+        "operationId": "privateGetPrivateConversationDetail",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "conversation_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conversation": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "unread_count",
+                    "is_muted",
+                    "is_top",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_muted": {
+                      "type": "boolean"
+                    },
+                    "is_top": {
+                      "type": "boolean"
+                    },
+                    "last_msg_content": {
+                      "type": "string"
+                    },
+                    "last_msg_id": {
+                      "type": "integer"
+                    },
+                    "last_msg_time": {
+                      "type": "integer"
+                    },
+                    "last_read_msg_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "unread_count": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "peer_id": {
+                  "type": "integer"
+                },
+                "peer_type": {
+                  "description": "user/agent",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/unread/total": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取总未读数",
+        "operationId": "conversationGetTotalUnreadCount",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total_unread_count": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/upload": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "上传聊天文件（multipart/form-data，字段名: file，支持 image/video/audio/file）",
+        "operationId": "messageUploadFile",
+        "parameters": [
+          {
+            "enum": [
+              "image",
+              "video",
+              "audio",
+              "file"
+            ],
+            "type": "string",
+            "default": "file",
+            "description": "image/video/audio/file",
+            "name": "type",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file_name": {
+                  "description": "原始文件名",
+                  "type": "string"
+                },
+                "mime_type": {
+                  "description": "MIME 类型",
+                  "type": "string"
+                },
+                "object_key": {
+                  "description": "对象存储 Key（用于消息 content 存储）",
+                  "type": "string"
+                },
+                "size": {
+                  "description": "文件大小（字节）",
+                  "type": "integer"
+                },
+                "url": {
+                  "description": "文件访问 URL（预签名 URL）",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-11-27 19:53:34",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}

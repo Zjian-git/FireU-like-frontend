@@ -1,0 +1,276 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "用户服务",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/user/avatar": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "上传用户头像（multipart/form-data，字段名: avatar）",
+        "operationId": "userUploadAvatar",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "头像访问 URL",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/info": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取用户信息",
+        "operationId": "userGetUserInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "mobile",
+                    "sex",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "Unix timestamp (秒)",
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "mobile": {
+                      "type": "string"
+                    },
+                    "sex": {
+                      "description": "0=未知, 1=男, 2=女",
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "description": "Unix timestamp (秒)",
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "更新用户信息",
+        "operationId": "userUpdateUserInfo",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "avatar": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "sex": {
+                  "type": "integer"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "mobile",
+                    "sex",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "Unix timestamp (秒)",
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "mobile": {
+                      "type": "string"
+                    },
+                    "sex": {
+                      "description": "0=未知, 1=男, 2=女",
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "description": "Unix timestamp (秒)",
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/list": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取所有用户列表",
+        "operationId": "userGetAllUsers",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "mobile",
+                      "sex",
+                      "is_active",
+                      "created_at",
+                      "updated_at"
+                    ],
+                    "properties": {
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "description": "Unix timestamp (秒)",
+                        "type": "integer"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "is_active": {
+                        "type": "boolean"
+                      },
+                      "mobile": {
+                        "type": "string"
+                      },
+                      "sex": {
+                        "description": "0=未知, 1=男, 2=女",
+                        "type": "integer"
+                      },
+                      "updated_at": {
+                        "description": "Unix timestamp (秒)",
+                        "type": "integer"
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-11-27 19:53:34",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}

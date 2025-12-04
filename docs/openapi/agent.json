@@ -1,0 +1,756 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "Agent 服务",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/agent/agents": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取当前用户的 Agent 列表",
+        "operationId": "agentListAgents",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 50,
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "name": "offset",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agents": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "owner_id",
+                      "username",
+                      "avatar",
+                      "description",
+                      "system_prompt",
+                      "model_provider",
+                      "model_name",
+                      "temperature",
+                      "max_tokens",
+                      "tools_enabled",
+                      "memory_enabled",
+                      "is_public",
+                      "is_active",
+                      "created_at",
+                      "updated_at"
+                    ],
+                    "properties": {
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "is_active": {
+                        "type": "boolean"
+                      },
+                      "is_public": {
+                        "type": "boolean"
+                      },
+                      "knowledge_base_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        }
+                      },
+                      "max_tokens": {
+                        "type": "integer"
+                      },
+                      "memory_enabled": {
+                        "type": "boolean"
+                      },
+                      "model_name": {
+                        "type": "string"
+                      },
+                      "model_provider": {
+                        "type": "string"
+                      },
+                      "owner_id": {
+                        "type": "integer"
+                      },
+                      "system_prompt": {
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "type": "number"
+                      },
+                      "tools_enabled": {
+                        "type": "boolean"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "创建 Agent",
+        "operationId": "agentCreateAgent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "username",
+                "model_provider",
+                "model_name",
+                "temperature",
+                "max_tokens",
+                "tools_enabled",
+                "memory_enabled",
+                "is_public"
+              ],
+              "properties": {
+                "avatar": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "is_public": {
+                  "type": "boolean",
+                  "default": false,
+                  "example": false
+                },
+                "knowledge_base_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "max_tokens": {
+                  "type": "integer",
+                  "default": 2048,
+                  "example": 2048
+                },
+                "memory_enabled": {
+                  "type": "boolean",
+                  "default": true,
+                  "example": true
+                },
+                "model_name": {
+                  "type": "string"
+                },
+                "model_provider": {
+                  "type": "string"
+                },
+                "system_prompt": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "number",
+                  "default": 0.7,
+                  "example": 0.7
+                },
+                "tools_enabled": {
+                  "type": "boolean",
+                  "default": true,
+                  "example": true
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "owner_id",
+                    "username",
+                    "avatar",
+                    "description",
+                    "system_prompt",
+                    "model_provider",
+                    "model_name",
+                    "temperature",
+                    "max_tokens",
+                    "tools_enabled",
+                    "memory_enabled",
+                    "is_public",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "is_public": {
+                      "type": "boolean"
+                    },
+                    "knowledge_base_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "max_tokens": {
+                      "type": "integer"
+                    },
+                    "memory_enabled": {
+                      "type": "boolean"
+                    },
+                    "model_name": {
+                      "type": "string"
+                    },
+                    "model_provider": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "system_prompt": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "number"
+                    },
+                    "tools_enabled": {
+                      "type": "boolean"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agent/agents/{agent_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取 Agent 详情",
+        "operationId": "agentGetAgent",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "agent_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "owner_id",
+                    "username",
+                    "avatar",
+                    "description",
+                    "system_prompt",
+                    "model_provider",
+                    "model_name",
+                    "temperature",
+                    "max_tokens",
+                    "tools_enabled",
+                    "memory_enabled",
+                    "is_public",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "is_public": {
+                      "type": "boolean"
+                    },
+                    "knowledge_base_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "max_tokens": {
+                      "type": "integer"
+                    },
+                    "memory_enabled": {
+                      "type": "boolean"
+                    },
+                    "model_name": {
+                      "type": "string"
+                    },
+                    "model_provider": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "system_prompt": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "number"
+                    },
+                    "tools_enabled": {
+                      "type": "boolean"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "更新 Agent",
+        "operationId": "agentUpdateAgent",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "agent_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "avatar": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "is_active": {
+                  "type": "boolean"
+                },
+                "is_public": {
+                  "type": "boolean"
+                },
+                "knowledge_base_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "max_tokens": {
+                  "type": "integer"
+                },
+                "memory_enabled": {
+                  "type": "boolean"
+                },
+                "model_name": {
+                  "type": "string"
+                },
+                "model_provider": {
+                  "type": "string"
+                },
+                "system_prompt": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "number"
+                },
+                "tools_enabled": {
+                  "type": "boolean"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "owner_id",
+                    "username",
+                    "avatar",
+                    "description",
+                    "system_prompt",
+                    "model_provider",
+                    "model_name",
+                    "temperature",
+                    "max_tokens",
+                    "tools_enabled",
+                    "memory_enabled",
+                    "is_public",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "properties": {
+                    "avatar": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "is_public": {
+                      "type": "boolean"
+                    },
+                    "knowledge_base_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "max_tokens": {
+                      "type": "integer"
+                    },
+                    "memory_enabled": {
+                      "type": "boolean"
+                    },
+                    "model_name": {
+                      "type": "string"
+                    },
+                    "model_provider": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "system_prompt": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "number"
+                    },
+                    "tools_enabled": {
+                      "type": "boolean"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "删除 Agent",
+        "operationId": "agentDeleteAgent",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "agent_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agent/agents/{agent_id}/avatar": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "上传 Agent 头像（multipart/form-data，字段名: avatar）",
+        "operationId": "agentUploadAgentAvatar",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "agent_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "头像访问 URL",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agent/agents/{agent_id}/process": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "处理消息（调用 Agent）",
+        "operationId": "agentProcessMessage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "agent_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "conversation_id",
+                "message"
+              ],
+              "properties": {
+                "conversation_id": {
+                  "type": "integer"
+                },
+                "current_model": {
+                  "type": "string"
+                },
+                "message": {
+                  "description": "只传递当前这一条消息",
+                  "type": "object",
+                  "required": [
+                    "role",
+                    "content"
+                  ],
+                  "properties": {
+                    "additional_kwargs": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "has_tool_calls": {
+                  "type": "boolean"
+                },
+                "response_messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "role",
+                      "content"
+                    ],
+                    "properties": {
+                      "additional_kwargs": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-11-27 19:53:34",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}

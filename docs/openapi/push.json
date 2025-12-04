@@ -1,0 +1,189 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "推送服务",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/push/online": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取在线用户列表",
+        "operationId": "statusGetOnlineUsers",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "online_users": {
+                  "description": "在线用户ID列表",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "total_online": {
+                  "description": "在线总人数",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/push/status/batch": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "批量获取用户在线状态",
+        "operationId": "statusBatchGetUserOnlineStatus",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "user_ids"
+              ],
+              "properties": {
+                "user_ids": {
+                  "description": "用户ID列表",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "user_id",
+                      "is_online",
+                      "device_count"
+                    ],
+                    "properties": {
+                      "device_count": {
+                        "type": "integer"
+                      },
+                      "is_online": {
+                        "type": "boolean"
+                      },
+                      "user_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/push/status/{user_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "获取用户在线状态",
+        "operationId": "statusGetUserOnlineStatus",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "用户ID",
+            "name": "user_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "device_count": {
+                  "description": "设备数量",
+                  "type": "integer"
+                },
+                "is_online": {
+                  "type": "boolean"
+                },
+                "last_active_at": {
+                  "description": "最后活跃时间",
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/push/ws": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "建立WebSocket连接",
+        "operationId": "websocketConnectWebSocket",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {}
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-11-18 19:08:36",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}
